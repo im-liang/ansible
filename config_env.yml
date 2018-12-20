@@ -32,3 +32,10 @@
         global: yes
         production: yes
         state: present
+
+    - name: NODE | Install React
+      npm:
+        name: create-react-app
+        global: yes
+        production: yes
+        state: present
