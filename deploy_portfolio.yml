@@ -1,0 +1,34 @@
+---
+- name: Deploy portfolio service
+  hosts: [baby]
+  remote_user: root
+  gather_facts: False
+  vars:
+    node_version: 11.x
+
+  tasks:
+
+    - name: clone portfolio to the tablet
+      git:
+        repo: 'git@github.com:im-liang/im-liang.github.io.git'
+        dest: /home/im-liang.github.io
+        version: dev
+        key_file: /Users/jieliang/.ssh/id_rsa
+
+    - name: NODE | Install modules
+      command: npm install
+      args:
+        chdir: /home/im-liang.github.io
+
+    - name: NODE | Build the project
+      command: npm run build
+      args:
+        chdir: /home/im-liang.github.io
+
+    - name: NODE | Run the project
+      command: pm2 start app.config.json
+      args:
+        chdir: /home/im-liang.github.io
+
+
+
